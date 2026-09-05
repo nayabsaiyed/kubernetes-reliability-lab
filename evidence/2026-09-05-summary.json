@@ -1,0 +1,160 @@
+{
+  "started_at": "2026-09-05T13:08:22.443025+00:00",
+  "cluster": "laniakea-reliability-7a5d0732a3",
+  "node_image": "kindest/node:v1.36.1@sha256:3489c7674813ba5d8b1a9977baea8a6e553784dab7b84759d1014dbd78f7ebd5",
+  "phases": [
+    {
+      "name": "baseline",
+      "ready_replicas": 2,
+      "samples": [
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        }
+      ]
+    },
+    {
+      "name": "stalled",
+      "rollout_exit": 1,
+      "rollout_output": "Waiting for deployment \"reliability-api\" rollout to finish: 1 out of 2 new replicas have been updated...\nerror: deployment \"reliability-api\" exceeded its progress deadline",
+      "condition": "ProgressDeadlineExceeded",
+      "available_replicas": 2,
+      "candidate_restarts": 0,
+      "candidate_probe_statuses": {
+        "/livez": 200,
+        "/readyz": 503
+      },
+      "ready_endpoints_unchanged": true,
+      "samples": [
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        }
+      ]
+    },
+    {
+      "name": "recovered",
+      "ready_replicas": 2,
+      "samples": [
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        },
+        {
+          "http_status": 200,
+          "release": "baseline"
+        }
+      ]
+    }
+  ],
+  "result": "passed",
+  "kind_version": "kind v0.32.0 go1.26.3 darwin/arm64",
+  "kubernetes_version": "v1.36.1",
+  "cleanup": "complete",
+  "user_kubeconfig_unchanged": true,
+  "finished_at": "2026-09-05T13:10:33.231880+00:00"
+}

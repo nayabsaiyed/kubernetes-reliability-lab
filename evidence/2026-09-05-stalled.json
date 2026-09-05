@@ -1,0 +1,1036 @@
+{
+  "deployment": {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "annotations": {
+        "deployment.kubernetes.io/revision": "2",
+        "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"reliability-api\",\"namespace\":\"reliability-lab\"},\"spec\":{\"minReadySeconds\":3,\"progressDeadlineSeconds\":45,\"replicas\":2,\"revisionHistoryLimit\":3,\"selector\":{\"matchLabels\":{\"app\":\"reliability-api\"}},\"strategy\":{\"rollingUpdate\":{\"maxSurge\":1,\"maxUnavailable\":0},\"type\":\"RollingUpdate\"},\"template\":{\"metadata\":{\"labels\":{\"app\":\"reliability-api\"}},\"spec\":{\"automountServiceAccountToken\":false,\"containers\":[{\"env\":[{\"name\":\"READY\",\"value\":\"true\"},{\"name\":\"RELEASE\",\"value\":\"baseline\"},{\"name\":\"STARTUP_DELAY_SECONDS\",\"value\":\"2\"}],\"image\":\"laniakea-reliability-api:laniakea-reliability-7a5d0732a3\",\"imagePullPolicy\":\"Never\",\"livenessProbe\":{\"failureThreshold\":3,\"httpGet\":{\"path\":\"/livez\",\"port\":\"http\"},\"periodSeconds\":5,\"timeoutSeconds\":1},\"name\":\"api\",\"ports\":[{\"containerPort\":8080,\"name\":\"http\"}],\"readinessProbe\":{\"failureThreshold\":2,\"httpGet\":{\"path\":\"/readyz\",\"port\":\"http\"},\"periodSeconds\":2,\"timeoutSeconds\":1},\"resources\":{\"limits\":{\"cpu\":\"200m\",\"memory\":\"64Mi\"},\"requests\":{\"cpu\":\"25m\",\"memory\":\"32Mi\"}},\"securityContext\":{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]},\"readOnlyRootFilesystem\":true},\"startupProbe\":{\"failureThreshold\":30,\"httpGet\":{\"path\":\"/startupz\",\"port\":\"http\"},\"periodSeconds\":1,\"timeoutSeconds\":1}}],\"securityContext\":{\"runAsGroup\":10001,\"runAsNonRoot\":true,\"runAsUser\":10001,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}},\"terminationGracePeriodSeconds\":15}}}}\n"
+      },
+      "creationTimestamp": "2026-09-05T13:09:30Z",
+      "generation": 2,
+      "name": "reliability-api",
+      "namespace": "reliability-lab",
+      "resourceVersion": "727",
+      "uid": "396117b3-6974-423f-baa1-92622d0458b5"
+    },
+    "spec": {
+      "minReadySeconds": 3,
+      "progressDeadlineSeconds": 45,
+      "replicas": 2,
+      "revisionHistoryLimit": 3,
+      "selector": {
+        "matchLabels": {
+          "app": "reliability-api"
+        }
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": 1,
+          "maxUnavailable": 0
+        },
+        "type": "RollingUpdate"
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "reliability-api"
+          }
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "READY",
+                  "value": "false"
+                },
+                {
+                  "name": "RELEASE",
+                  "value": "bad-readiness"
+                },
+                {
+                  "name": "STARTUP_DELAY_SECONDS",
+                  "value": "2"
+                }
+              ],
+              "image": "laniakea-reliability-api:laniakea-reliability-7a5d0732a3",
+              "imagePullPolicy": "Never",
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/livez",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 5,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "name": "api",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http",
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": {
+                "failureThreshold": 2,
+                "httpGet": {
+                  "path": "/readyz",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 2,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "200m",
+                  "memory": "64Mi"
+                },
+                "requests": {
+                  "cpu": "25m",
+                  "memory": "32Mi"
+                }
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL"
+                  ]
+                },
+                "readOnlyRootFilesystem": true
+              },
+              "startupProbe": {
+                "failureThreshold": 30,
+                "httpGet": {
+                  "path": "/startupz",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 1,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File"
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {
+            "runAsGroup": 10001,
+            "runAsNonRoot": true,
+            "runAsUser": 10001,
+            "seccompProfile": {
+              "type": "RuntimeDefault"
+            }
+          },
+          "terminationGracePeriodSeconds": 15
+        }
+      }
+    },
+    "status": {
+      "availableReplicas": 2,
+      "conditions": [
+        {
+          "lastTransitionTime": "2026-09-05T13:09:39Z",
+          "lastUpdateTime": "2026-09-05T13:09:39Z",
+          "message": "Deployment has minimum availability.",
+          "reason": "MinimumReplicasAvailable",
+          "status": "True",
+          "type": "Available"
+        },
+        {
+          "lastTransitionTime": "2026-09-05T13:10:26Z",
+          "lastUpdateTime": "2026-09-05T13:10:26Z",
+          "message": "ReplicaSet \"reliability-api-55dcdf78bf\" has timed out progressing.",
+          "reason": "ProgressDeadlineExceeded",
+          "status": "False",
+          "type": "Progressing"
+        }
+      ],
+      "observedGeneration": 2,
+      "readyReplicas": 2,
+      "replicas": 3,
+      "terminatingReplicas": 0,
+      "unavailableReplicas": 1,
+      "updatedReplicas": 1
+    }
+  },
+  "pods": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "creationTimestamp": "2026-09-05T13:09:40Z",
+          "generateName": "reliability-api-55dcdf78bf-",
+          "generation": 1,
+          "labels": {
+            "app": "reliability-api",
+            "pod-template-hash": "55dcdf78bf"
+          },
+          "name": "reliability-api-55dcdf78bf-2587w",
+          "namespace": "reliability-lab",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "ReplicaSet",
+              "name": "reliability-api-55dcdf78bf",
+              "uid": "bb518d15-761b-4830-8510-306427c09f62"
+            }
+          ],
+          "resourceVersion": "648",
+          "uid": "9a203aed-18e1-4d02-a3f3-e8134b8a7f6d"
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "READY",
+                  "value": "false"
+                },
+                {
+                  "name": "RELEASE",
+                  "value": "bad-readiness"
+                },
+                {
+                  "name": "STARTUP_DELAY_SECONDS",
+                  "value": "2"
+                }
+              ],
+              "image": "laniakea-reliability-api:laniakea-reliability-7a5d0732a3",
+              "imagePullPolicy": "Never",
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/livez",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 5,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "name": "api",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http",
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": {
+                "failureThreshold": 2,
+                "httpGet": {
+                  "path": "/readyz",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 2,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "200m",
+                  "memory": "64Mi"
+                },
+                "requests": {
+                  "cpu": "25m",
+                  "memory": "32Mi"
+                }
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL"
+                  ]
+                },
+                "readOnlyRootFilesystem": true
+              },
+              "startupProbe": {
+                "failureThreshold": 30,
+                "httpGet": {
+                  "path": "/startupz",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 1,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File"
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "laniakea-reliability-7a5d0732a3-control-plane",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {
+            "runAsGroup": 10001,
+            "runAsNonRoot": true,
+            "runAsUser": 10001,
+            "seccompProfile": {
+              "type": "RuntimeDefault"
+            }
+          },
+          "serviceAccount": "default",
+          "serviceAccountName": "default",
+          "terminationGracePeriodSeconds": 15,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ]
+        },
+        "status": {
+          "allocatedResources": {
+            "cpu": "25m",
+            "memory": "32Mi"
+          },
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:40Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:40Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:40Z",
+              "message": "containers with unready status: [api]",
+              "observedGeneration": 1,
+              "reason": "ContainersNotReady",
+              "status": "False",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:40Z",
+              "message": "containers with unready status: [api]",
+              "observedGeneration": 1,
+              "reason": "ContainersNotReady",
+              "status": "False",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:40Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "allocatedResources": {
+                "cpu": "25m",
+                "memory": "32Mi"
+              },
+              "containerID": "containerd://8a7aad083294510bac8bf0a2ad917b8cbd378d95101eb58e752639607d3cdb37",
+              "image": "docker.io/library/laniakea-reliability-api:laniakea-reliability-7a5d0732a3",
+              "imageID": "docker.io/library/import-2026-09-05@sha256:3cacf596fdab792c00c92703b1d993ca1f118ae5df5ae61bf7be9d78a20c7a56",
+              "lastState": {},
+              "name": "api",
+              "ready": false,
+              "resources": {
+                "limits": {
+                  "cpu": "200m",
+                  "memory": "64Mi"
+                },
+                "requests": {
+                  "cpu": "25m",
+                  "memory": "32Mi"
+                }
+              },
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-09-05T13:09:40Z"
+                }
+              },
+              "user": {
+                "linux": {
+                  "gid": 10001,
+                  "supplementalGroups": [
+                    10001
+                  ],
+                  "uid": 10001
+                }
+              }
+            }
+          ],
+          "hostIP": "172.18.0.5",
+          "hostIPs": [
+            {
+              "ip": "172.18.0.5"
+            }
+          ],
+          "observedGeneration": 1,
+          "phase": "Running",
+          "podIP": "10.244.0.7",
+          "podIPs": [
+            {
+              "ip": "10.244.0.7"
+            }
+          ],
+          "qosClass": "Burstable",
+          "resources": {
+            "limits": {
+              "cpu": "200m",
+              "memory": "64Mi"
+            },
+            "requests": {
+              "memory": "32Mi"
+            }
+          },
+          "startTime": "2026-09-05T13:09:40Z"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "creationTimestamp": "2026-09-05T13:09:30Z",
+          "generateName": "reliability-api-6757c9bc97-",
+          "generation": 1,
+          "labels": {
+            "app": "reliability-api",
+            "pod-template-hash": "6757c9bc97"
+          },
+          "name": "reliability-api-6757c9bc97-99bqd",
+          "namespace": "reliability-lab",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "ReplicaSet",
+              "name": "reliability-api-6757c9bc97",
+              "uid": "895ad695-511a-4d2d-80dd-17e43d83eb4b"
+            }
+          ],
+          "resourceVersion": "604",
+          "uid": "abf042e1-aaf9-42de-bff7-c221e5dc7f07"
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "READY",
+                  "value": "true"
+                },
+                {
+                  "name": "RELEASE",
+                  "value": "baseline"
+                },
+                {
+                  "name": "STARTUP_DELAY_SECONDS",
+                  "value": "2"
+                }
+              ],
+              "image": "laniakea-reliability-api:laniakea-reliability-7a5d0732a3",
+              "imagePullPolicy": "Never",
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/livez",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 5,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "name": "api",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http",
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": {
+                "failureThreshold": 2,
+                "httpGet": {
+                  "path": "/readyz",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 2,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "200m",
+                  "memory": "64Mi"
+                },
+                "requests": {
+                  "cpu": "25m",
+                  "memory": "32Mi"
+                }
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL"
+                  ]
+                },
+                "readOnlyRootFilesystem": true
+              },
+              "startupProbe": {
+                "failureThreshold": 30,
+                "httpGet": {
+                  "path": "/startupz",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 1,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File"
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "laniakea-reliability-7a5d0732a3-control-plane",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {
+            "runAsGroup": 10001,
+            "runAsNonRoot": true,
+            "runAsUser": 10001,
+            "seccompProfile": {
+              "type": "RuntimeDefault"
+            }
+          },
+          "serviceAccount": "default",
+          "serviceAccountName": "default",
+          "terminationGracePeriodSeconds": 15,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ]
+        },
+        "status": {
+          "allocatedResources": {
+            "cpu": "25m",
+            "memory": "32Mi"
+          },
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:31Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:31Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:36Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:36Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:30Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "allocatedResources": {
+                "cpu": "25m",
+                "memory": "32Mi"
+              },
+              "containerID": "containerd://1d639a516ee1c36067ff0f6a5cd641bff817f21abe407f1b6387b64d47621543",
+              "image": "docker.io/library/laniakea-reliability-api:laniakea-reliability-7a5d0732a3",
+              "imageID": "docker.io/library/import-2026-09-05@sha256:3cacf596fdab792c00c92703b1d993ca1f118ae5df5ae61bf7be9d78a20c7a56",
+              "lastState": {},
+              "name": "api",
+              "ready": true,
+              "resources": {
+                "limits": {
+                  "cpu": "200m",
+                  "memory": "64Mi"
+                },
+                "requests": {
+                  "cpu": "25m",
+                  "memory": "32Mi"
+                }
+              },
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-09-05T13:09:31Z"
+                }
+              },
+              "user": {
+                "linux": {
+                  "gid": 10001,
+                  "supplementalGroups": [
+                    10001
+                  ],
+                  "uid": 10001
+                }
+              }
+            }
+          ],
+          "hostIP": "172.18.0.5",
+          "hostIPs": [
+            {
+              "ip": "172.18.0.5"
+            }
+          ],
+          "observedGeneration": 1,
+          "phase": "Running",
+          "podIP": "10.244.0.5",
+          "podIPs": [
+            {
+              "ip": "10.244.0.5"
+            }
+          ],
+          "qosClass": "Burstable",
+          "resources": {
+            "limits": {
+              "cpu": "200m",
+              "memory": "64Mi"
+            },
+            "requests": {
+              "memory": "32Mi"
+            }
+          },
+          "startTime": "2026-09-05T13:09:31Z"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "creationTimestamp": "2026-09-05T13:09:30Z",
+          "generateName": "reliability-api-6757c9bc97-",
+          "generation": 1,
+          "labels": {
+            "app": "reliability-api",
+            "pod-template-hash": "6757c9bc97"
+          },
+          "name": "reliability-api-6757c9bc97-zt22f",
+          "namespace": "reliability-lab",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "ReplicaSet",
+              "name": "reliability-api-6757c9bc97",
+              "uid": "895ad695-511a-4d2d-80dd-17e43d83eb4b"
+            }
+          ],
+          "resourceVersion": "598",
+          "uid": "ce0a126f-40bf-48f1-a5cd-03909ba8740a"
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "READY",
+                  "value": "true"
+                },
+                {
+                  "name": "RELEASE",
+                  "value": "baseline"
+                },
+                {
+                  "name": "STARTUP_DELAY_SECONDS",
+                  "value": "2"
+                }
+              ],
+              "image": "laniakea-reliability-api:laniakea-reliability-7a5d0732a3",
+              "imagePullPolicy": "Never",
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/livez",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 5,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "name": "api",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http",
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": {
+                "failureThreshold": 2,
+                "httpGet": {
+                  "path": "/readyz",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 2,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "200m",
+                  "memory": "64Mi"
+                },
+                "requests": {
+                  "cpu": "25m",
+                  "memory": "32Mi"
+                }
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL"
+                  ]
+                },
+                "readOnlyRootFilesystem": true
+              },
+              "startupProbe": {
+                "failureThreshold": 30,
+                "httpGet": {
+                  "path": "/startupz",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 1,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File"
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "laniakea-reliability-7a5d0732a3-control-plane",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {
+            "runAsGroup": 10001,
+            "runAsNonRoot": true,
+            "runAsUser": 10001,
+            "seccompProfile": {
+              "type": "RuntimeDefault"
+            }
+          },
+          "serviceAccount": "default",
+          "serviceAccountName": "default",
+          "terminationGracePeriodSeconds": 15,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ]
+        },
+        "status": {
+          "allocatedResources": {
+            "cpu": "25m",
+            "memory": "32Mi"
+          },
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:31Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:31Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:36Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:36Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-09-05T13:09:30Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "allocatedResources": {
+                "cpu": "25m",
+                "memory": "32Mi"
+              },
+              "containerID": "containerd://084905e24697a71491641d2420c5ddd2675fd9d5a58e810afc729d5e66480373",
+              "image": "docker.io/library/laniakea-reliability-api:laniakea-reliability-7a5d0732a3",
+              "imageID": "docker.io/library/import-2026-09-05@sha256:3cacf596fdab792c00c92703b1d993ca1f118ae5df5ae61bf7be9d78a20c7a56",
+              "lastState": {},
+              "name": "api",
+              "ready": true,
+              "resources": {
+                "limits": {
+                  "cpu": "200m",
+                  "memory": "64Mi"
+                },
+                "requests": {
+                  "cpu": "25m",
+                  "memory": "32Mi"
+                }
+              },
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-09-05T13:09:31Z"
+                }
+              },
+              "user": {
+                "linux": {
+                  "gid": 10001,
+                  "supplementalGroups": [
+                    10001
+                  ],
+                  "uid": 10001
+                }
+              }
+            }
+          ],
+          "hostIP": "172.18.0.5",
+          "hostIPs": [
+            {
+              "ip": "172.18.0.5"
+            }
+          ],
+          "observedGeneration": 1,
+          "phase": "Running",
+          "podIP": "10.244.0.6",
+          "podIPs": [
+            {
+              "ip": "10.244.0.6"
+            }
+          ],
+          "qosClass": "Burstable",
+          "resources": {
+            "limits": {
+              "cpu": "200m",
+              "memory": "64Mi"
+            },
+            "requests": {
+              "memory": "32Mi"
+            }
+          },
+          "startTime": "2026-09-05T13:09:31Z"
+        }
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  },
+  "endpointslices": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "addressType": "IPv4",
+        "apiVersion": "discovery.k8s.io/v1",
+        "endpoints": [
+          {
+            "addresses": [
+              "10.244.0.6"
+            ],
+            "conditions": {
+              "ready": true,
+              "serving": true,
+              "terminating": false
+            },
+            "nodeName": "laniakea-reliability-7a5d0732a3-control-plane",
+            "targetRef": {
+              "kind": "Pod",
+              "name": "reliability-api-6757c9bc97-zt22f",
+              "namespace": "reliability-lab",
+              "uid": "ce0a126f-40bf-48f1-a5cd-03909ba8740a"
+            }
+          },
+          {
+            "addresses": [
+              "10.244.0.5"
+            ],
+            "conditions": {
+              "ready": true,
+              "serving": true,
+              "terminating": false
+            },
+            "nodeName": "laniakea-reliability-7a5d0732a3-control-plane",
+            "targetRef": {
+              "kind": "Pod",
+              "name": "reliability-api-6757c9bc97-99bqd",
+              "namespace": "reliability-lab",
+              "uid": "abf042e1-aaf9-42de-bff7-c221e5dc7f07"
+            }
+          },
+          {
+            "addresses": [
+              "10.244.0.7"
+            ],
+            "conditions": {
+              "ready": false,
+              "serving": false,
+              "terminating": false
+            },
+            "nodeName": "laniakea-reliability-7a5d0732a3-control-plane",
+            "targetRef": {
+              "kind": "Pod",
+              "name": "reliability-api-55dcdf78bf-2587w",
+              "namespace": "reliability-lab",
+              "uid": "9a203aed-18e1-4d02-a3f3-e8134b8a7f6d"
+            }
+          }
+        ],
+        "kind": "EndpointSlice",
+        "metadata": {
+          "annotations": {
+            "endpoints.kubernetes.io/last-change-trigger-time": "2026-09-05T13:09:40Z"
+          },
+          "creationTimestamp": "2026-09-05T13:09:31Z",
+          "generateName": "reliability-api-",
+          "generation": 6,
+          "labels": {
+            "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+            "kubernetes.io/service-name": "reliability-api"
+          },
+          "name": "reliability-api-cq8jz",
+          "namespace": "reliability-lab",
+          "ownerReferences": [
+            {
+              "apiVersion": "v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Service",
+              "name": "reliability-api",
+              "uid": "c3b1f4a2-7691-4e9b-b33b-b5c642340d09"
+            }
+          ],
+          "resourceVersion": "634",
+          "uid": "5e6a1d2e-7771-4356-81bc-e7f448cda5bd"
+        },
+        "ports": [
+          {
+            "name": "http",
+            "port": 8080,
+            "protocol": "TCP"
+          }
+        ]
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  }
+}
